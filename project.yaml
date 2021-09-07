@@ -1,11 +1,11 @@
 specVersion: 0.0.1
 description: A subquery project provide dictionary data & service for a substrate-based network
-repository: 'https://github.com/subquery/subql-dictionary'
+repository: "https://github.com/subquery/subql-dictionary"
 schema: ./schema.graphql
 network:
-  endpoint: 'wss://karura.api.onfinality.io/public-ws'
+  endpoint: "wss://karura.api.onfinality.io/public-ws"
   types: {
-     "CallOf": "Call",
+    "CallOf": "Call",
     "DispatchTime": {
         "_enum": {
             "At": "BlockNumber",
@@ -210,36 +210,42 @@ network:
         "debit": "Balance"
     },
     "CID": "Vec<u8>",
-    "NFTClassId": "u32",
-    "ClassIdOf": "ClassId",
+    "Attributes": "BTreeMap<Vec<u8>, Vec<u8>>",
+    "TokenInfoOf": {
+        "metadata": "CID",
+        "owner": "AccountId",
+        "data": "TokenData"
+    },
+    "Properties": {
+        "_set": {
+            "_bitLength": 8,
+            "Transferable": 1,
+            "Burnable": 2,
+            "Mintable": 4,
+            "ClassPropertiesMutable": 8
+        }
+    },
+    "ClassData": {
+        "deposit": "Balance",
+        "properties": "Properties",
+        "attributes": "Attributes"
+    },
+    "TokenData": {
+        "deposit": "Balance",
+        "attributes": "Attributes"
+    },
     "TokenId": "u64",
     "TokenIdOf": "TokenId",
+    "NFTClassId": "u32",
+    "ClassIdOf": "ClassId",
+    "NFTBalance": "u128",
+    "NFTBalanceOf": "NFTBalance",
     "ClassInfoOf": {
         "metadata": "CID",
         "totalIssuance": "TokenId",
         "owner": "AccountId",
         "data": "ClassData"
     },
-    "TokenInfoOf": {
-        "metadata": "CID",
-        "owner": "AccountId",
-        "data": "TokenData"
-    },
-    "ClassData": {
-        "deposit": "Balance",
-        "properties": "Properties"
-    },
-    "TokenData": {
-        "deposit": "Balance"
-    },
-    "Properties": {
-        "_set": {
-            "_bitLength": 8,
-            "Transferable": 1,
-            "Burnable": 2
-        }
-    },
-    "NFTBalance": "u128",
     "NomineeId": "AccountId",
     "HomaUnlockChunk": {
         "value": "Balance",
@@ -260,11 +266,13 @@ network:
             "AUSD": 1,
             "DOT": 2,
             "LDOT": 3,
-            "RENBTC": 4,
+            "RENBTC": 20,
+            "CASH": 21,
             "KAR": 128,
             "KUSD": 129,
             "KSM": 130,
-            "LKSM": 131
+            "LKSM": 131,
+            "BNC": 168
         }
     },
     "DexShare": {
@@ -307,6 +315,17 @@ network:
     "TradingPair": "(CurrencyId,  CurrencyId)",
     "OracleKey": "CurrencyId",
     "AsOriginId": "AuthoritysOriginId",
+    "ProxyType": {
+        "_enum": [
+            "Any",
+            "CancelProxy",
+            "Governance",
+            "Auction",
+            "Swap",
+            "Loan"
+        ]
+    },
+    "AtLeast64BitUnsigned": "u128",
     "SubAccountStatus": {
         "bonded": "Balance",
         "available": "Balance",
@@ -360,7 +379,7 @@ network:
     "ResourceId": "[u8; 32]",
     "ChainId": "u8",
     "Keys": "SessionKeys1"
-  }
+}
 dataSources:
   - name: main
     kind: substrate/Runtime
